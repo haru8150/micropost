@@ -44,7 +44,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class,'user_follow','follow_id','user_id')->withTimestamps();
     }
-    
+
+
     //userがフォローする処理
     public function follow($userId)
     {
@@ -81,10 +82,58 @@ class User extends Authenticatable
         }
     }
     
-    //user(userId)がすでにフォローしているかの確認処理
-    public function is_following($userId)
+    //user(userId)$micropostIdをすでにフォローしているかの確認処理
+    public function is_following($micropostId)
     {
-        return $this->followings()->where('follow_id',$userId)->exists();
+        return $this->followings()->where('follow_id',$micropostId)->exists();
+    }
+    
+    //お気に入りの一覧を取得する機能 どんな投稿をお気に入りにしているか　だから　どこからひっぱってくるか
+    public function favorites()
+    {
+        return $this->belongsToMany(Micropost::class,'user_favorites','user_id','micropost_id')->withTimestamps();
+    }
+    
+    //userがお気に入りする処理
+    public function favorite($micropostId)
+    {
+        //すでにお気に入りしているかの確認
+        $exist = $this->is_favoriting($micropostId);
+        //相手が自分の投稿でないかの確認
+        //$its_me = $this->id == $userId;
+        
+        if($exist){
+            //すでにお気に入りしていれば何もしない
+            return false;
+        }else{
+            //お気に入りしていなければ登録
+            $this->favorites()->attach($micropostId);
+            return true;
+        }
+    }
+    
+    //userがお気に入りからはずす処理
+    public function unfavorite($micropostId)
+    {
+        //すでにお気に入り登録しているか
+        $exist = $this->is_favoriting($micropostId);
+        //相手が自分の投稿ではないかの確認
+        //$its_me = $this->id == $micropostId;
+        
+        if($exist){
+            //すでにお気に入りしていればはずす
+            $this->favorites()->detach($micropostId);
+            return true;
+        }else{
+            //お気に入りしていなければ何もしない
+            return false;
+        }
+    }
+    
+    //user(userId)がすでにお気に入り登録しているかの確認処理
+    public function is_favoriting($micropostId)
+    {
+        return $this->favorites()->where('micropost_id', $micropostId)->exists();
     }
     
     //タイムライン用のポストを取得するための処理
@@ -97,24 +146,6 @@ class User extends Authenticatable
         //micropostテーブルのuser_idカラムで、$follow_user_idsの中身をすべて取得
         return Micropost::whereIn('user_id',$follow_user_ids);
     }
+    
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

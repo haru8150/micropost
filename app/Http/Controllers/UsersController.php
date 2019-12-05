@@ -68,4 +68,20 @@ class UsersController extends Controller
         return view('users.followers',$data);
     }
     
+    //ユーザーが追加したお気に入りを一覧表示するページ
+    public function favorites($id)
+    {
+        //URLにアクセスしたときに$id=1とか代入される
+        $user = User::find($id);
+        $favorites = $user->favorites()->paginate(10);
+        
+        $data = [
+            'user' => $user,
+            'microposts' => $favorites,
+        ];
+        
+        $data += $this->counts($user);
+        
+        return view('users.favorites',$data);
+    }
 }

@@ -11,16 +11,18 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
-    //Micropost、フォロー、フォロワー の数をカウントする機能を追加
+    //Micropost、フォロー、フォロワー、お気に入り の数をカウントする機能を追加
     public function counts($user){
         $count_microposts = $user->microposts()->count();
         $count_followings = $user->followings()->count();
         $count_followers = $user->followers()->count();
+        $count_favorites = $user->favorites()->count();
         
         return [
             'count_microposts' => $count_microposts,
             'count_followings' => $count_followings,
             'count_followers' => $count_followers,
+            'count_favorites' => $count_favorites,
         ];
     }
 }
