@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/';//ユーザー登録直後にトップページへリダイレクト
 
     /**
      * Create a new controller instance.

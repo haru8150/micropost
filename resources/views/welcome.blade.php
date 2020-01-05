@@ -27,6 +27,9 @@
             <div class="text-center">
                 <h1>Welcome to the Microposts</h1>
                 {!! link_to_route('signup.get','Sign up now!',[],['class' => 'btn btn-lg btn-primary']) !!}
+                <p>Loginから下記を入力してログイン</p>
+                <p>Email→login_user1@login.com</p>
+                <p>PASS→logintest</p>
             </div>
         </div>
     @endif

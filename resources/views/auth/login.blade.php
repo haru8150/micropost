@@ -20,7 +20,9 @@
                 
                 {!! Form::submit('Log in', ['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
-            
+                <p>下記を入力してログイン</p>
+                <p>ID→login_user1@login.com</p>
+                <p>PASS→logintest</p>
             <p class="mt-2">New user? {!! link_to_route('signup.get', 'Sign up now!') !!}</p>
         </div>
     </div>
