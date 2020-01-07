@@ -13,5 +13,5 @@
 フレームワーク：Laravel5.5、BootStrap4  
 インフラ：AWS(Cloud9)  
 DB：MYSQL  
-画像アップロード：AWS(S3)  
+画像：Gravatar 
 デプロイ：Heroku  
